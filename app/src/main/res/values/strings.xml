@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GymBuddy</string>
+    <string name="app_title">Welcome to Gym Buddy</string>
+    <string name="google_login">Log in using Google!</string>
+    <string name="placeholder">placeholder</string>
+    <string name="log_out">Log Out</string>
+</resources>
