@@ -7,90 +7,80 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".HomeActivity">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/welcome_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome: "
+                android:textSize="@dimen/regular_textSize" />
+            <TextView
+                android:id="@+id/welcome_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/regular_textSize"
+                android:text="@string/placeholder"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/your_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your location: "
+                android:textSize="@dimen/regular_textSize" />
+            <EditText
+                android:id="@+id/welcome_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/regular_textSize"
+                android:hint="Location"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/your_gym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Gym: "
+                android:textSize="@dimen/regular_textSize" />
+            <EditText
+                android:id="@+id/welcome_gym"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/regular_textSize"
+                android:hint="Location"/>
+        </LinearLayout>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:padding="10dp"
+                android:text="Save"
+            android:textSize="@dimen/regular_textSize"
+                android:id="@+id/saveProfile_button"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/welcome_intro"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome: "
-            android:textSize="@dimen/title_textSize" />
-        <TextView
-            android:id="@+id/welcome_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_textSize"
-            android:text="@string/placeholder"/>
+            app:menu="@menu/bottom_navigation_menu" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/your_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your email: "
-            android:textSize="@dimen/title_textSize" />
-        <TextView
-            android:id="@+id/welcome_mail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_textSize"
-            android:text="@string/placeholder"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/your_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your location: "
-            android:textSize="@dimen/title_textSize" />
-        <EditText
-            android:id="@+id/welcome_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_textSize"
-            android:hint="Location"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/your_gym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your Gym: "
-            android:textSize="@dimen/title_textSize" />
-        <EditText
-            android:id="@+id/welcome_gym"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title_textSize"
-            android:hint="Location"/>
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:padding="10dp"
-        android:text="Save"
-        android:id="@+id/saveProfile_button"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:padding="10dp"
-        android:text="@string/log_out"
-        android:id="@+id/logOut_button"/>
+
 </LinearLayout>
