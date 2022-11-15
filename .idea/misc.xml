@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_add_friend.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/activity_friend_profile.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/fragment_friend_list.xml" value="0.15520833333333334" />

@@ -1,5 +1,6 @@
 package com.example.gymbuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -129,6 +130,9 @@ public class FriendListFragment extends Fragment {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                                     User pos_user = adapter.getItem(i);
+                                                    Intent intent = new Intent(getActivity(),FriendProfileActivity.class);
+                                                    intent.putExtra("user_email" ,pos_user.getEmail());
+                                                    startActivity(intent);
                                                 }
                                             });
                                         }

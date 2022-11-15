@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,14 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    TextView name;
-    Button saveButton;
-    EditText gym;
-    GoogleSignInOptions gso;
-    GoogleSignInClient gsc;
-    BottomNavigationView bottomNavigationView;
-    AutoCompleteTextView chooseCityView;
-    String [] cities = {"","Boston",
+    String[] cities = {"", "Boston",
             "Cambridge",
             "Waltham",
             "Burlington",
@@ -315,6 +310,16 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             "Essex",
             "Hull",
             "Hamilton"};
+    TextView name;
+    Button saveButton, changeProfileButton;
+    EditText gym;
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+    BottomNavigationView bottomNavigationView;
+    AutoCompleteTextView chooseCityView;
+    ImageView profileImage;
+    int SELECT_PICTURE = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -324,6 +329,15 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         gsc = GoogleSignIn.getClient(this, gso);
+        profileImage=findViewById(R.id.homeProfileImage);
+        changeProfileButton=findViewById(R.id.changeProfileImage);
+        changeProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageChooser();
+            }
+        });
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             String Name = account.getDisplayName();
@@ -335,7 +349,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 saveEdit();
             }
         });
-        ArrayAdapter<String> city_adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, cities);
+        ArrayAdapter<String> city_adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, cities);
         gym = findViewById(R.id.welcome_gym);
         chooseCityView = findViewById(R.id.location_autocomplete);
         chooseCityView.setThreshold(1);
@@ -345,7 +359,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
 
     }
-    private void getCurrentDetails(){
+
+    private void getCurrentDetails() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -364,7 +379,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         gym.setText(document.getData().get("gym").toString());
                         Log.d("d", "DocumentSnapshot data: " + document.getData());
 
-                        Log.d("d","friendlist: " + document.getData().get("friendlist"));
+                        Log.d("d", "friendlist: " + document.getData().get("friendlist"));
                     } else {
                         createNewUser();
                         Log.d("d", "No such document");
@@ -375,21 +390,21 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
     }
+
     private void saveEdit() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
 
-
         db.collection("users").
                 document(account.getEmail()).update("gym", gym.getText().toString(),
-                        "location",chooseCityView.getText().toString()).
+                        "location", chooseCityView.getText().toString()).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("hi", "DocumentSnapshot successfully written!");
-                        Toast.makeText(getApplicationContext(),"Edited Successfully!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Edited Successfully!", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -404,6 +419,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             name.setText(Name);
         }
     }
+
     private void createNewUser() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -441,10 +457,29 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
     }
+    void imageChooser() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    profileImage.setImageURI(selectedImageUri);
+                }
+            }
+        }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_home:
                 System.out.println("menu_home");
                 return true;
