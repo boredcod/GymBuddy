@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -89,7 +90,6 @@ public class FriendListFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-
                     DocumentSnapshot document = task.getResult();
                     System.out.println("debug this " + document.getData());
                     if (document.exists()) {
@@ -114,8 +114,6 @@ public class FriendListFragment extends Fragment {
                                                 String curr_location = document.getData().get("location").toString();
                                                 String curr_gym = document.getData().get("gym").toString();
                                                 String curr_email = document.getData().get("email").toString();
-                                                Log.d("d", "DocumentSnapshot dataaaaaaa: " + document.getData());
-                                                Log.d("d", "List of friends: " + document.getData().get("friendlist"));
                                                 users.add(new User(curr_name,curr_uid,curr_location,curr_gym,curr_email,new ArrayList<>()));
                                             } else {
                                                 Log.d("d", "No such document");
@@ -127,6 +125,12 @@ public class FriendListFragment extends Fragment {
                                         if (pendingLoadCount[0] == 0){
                                             adapter = new FriendListAdapter(users,getActivity());
                                             listView.setAdapter(adapter);
+                                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    User pos_user = adapter.getItem(i);
+                                                }
+                                            });
                                         }
                                     }
                                 });

@@ -2,7 +2,10 @@ package com.example.gymbuddy;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,7 +36,8 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
-
+    LinearLayout fragContainer;
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +54,10 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                 addFriendsToFB();
             }
         });
+        fragContainer = findViewById(R.id.friendFragmentList);
+        FriendListFragment curr_frag = new FriendListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragmentFriendList, curr_frag).commit();
     }
 
     private void addFriendsToFB() {
@@ -72,6 +81,9 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_SHORT).show();
+                                        FriendListFragment curr_frag = new FriendListFragment();
+                                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.fragmentFriendList, curr_frag).commit();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +37,284 @@ import java.util.ArrayList;
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     TextView name;
     Button saveButton;
-    EditText location, gym;
+    EditText gym;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
-
+    AutoCompleteTextView chooseCityView;
+    String [] cities = {"","Boston",
+            "Cambridge",
+            "Waltham",
+            "Burlington",
+            "Woburn",
+            "Newton",
+            "Lexington",
+            "Wellesley",
+            "Framingham",
+            "Marlborough",
+            "Bedford",
+            "Somerville",
+            "Andover",
+            "Portsmouth",
+            "Needham",
+            "Watertown",
+            "Concord",
+            "Quincy",
+            "Lowell",
+            "Chelmsford",
+            "Billerica",
+            "Brookline",
+            "Natick",
+            "Acton",
+            "Beverly",
+            "Medford",
+            "Westford",
+            "Wilmington",
+            "Littleton",
+            "Canton",
+            "Wakefield",
+            "Maynard",
+            "Hopkinton",
+            "North Andover",
+            "Arlington Heights",
+            "Salem",
+            "Westwood",
+            "Salem",
+            "Braintree",
+            "Tewksbury",
+            "Charlestown",
+            "Danvers",
+            "Norwood",
+            "Sudbury",
+            "Boxborough",
+            "Marblehead",
+            "Franklin",
+            "Dedham",
+            "Belmont",
+            "Allston",
+            "Newburyport",
+            "Lawrence",
+            "Newton Center",
+            "North Billerica",
+            "Wayland",
+            "Hingham",
+            "Peabody",
+            "Weymouth",
+            "Brockton",
+            "Lincoln",
+            "Brighton",
+            "Dover",
+            "Hampstead",
+            "Haverhill",
+            "Holliston",
+            "Gloucester",
+            "North Reading",
+            "Malden",
+            "Durham",
+            "Foxboro",
+            "Hudson",
+            "Norwell",
+            "Reading",
+            "Auburndale",
+            "West Newton",
+            "Stoneham",
+            "Walpole",
+            "Scituate",
+            "Jamaica Plain",
+            "Saugus",
+            "Tyngsboro",
+            "Rockland",
+            "Stoughton",
+            "Chelsea",
+            "West Roxbury",
+            "Medfield",
+            "Winchester",
+            "Rochester",
+            "Hampton Falls",
+            "Melrose",
+            "Ayer",
+            "Chestnut Hill",
+            "Methuen",
+            "Avon",
+            "Middleton",
+            "Pembroke",
+            "Newbury",
+            "Weston",
+            "Ashland",
+            "Derry",
+            "West Bridgewater",
+            "Bridgewater",
+            "Groton",
+            "Boxford",
+            "Wenham",
+            "Stow",
+            "Medway",
+            "Devens",
+            "Arlington",
+            "North Chelmsford",
+            "Milton",
+            "Lynn",
+            "Ipswich",
+            "Needham Heights",
+            "Cohasset",
+            "Plymouth",
+            "Seabrook",
+            "Londonderry",
+            "Windham",
+            "Marshfield",
+            "Amesbury",
+            "Millis",
+            "White Horse Beach",
+            "East Boston",
+            "Wrentham",
+            "Lynnfield",
+            "Revere",
+            "Stratham",
+            "Georgetown",
+            "Rockport",
+            "Swampscott",
+            "Holbrook",
+            "Newtonville",
+            "Hanover",
+            "Hanson",
+            "Middleboro",
+            "Topsfield",
+            "Hyde Park",
+            "Rowley",
+            "Randolph",
+            "Everett",
+            "Dracut",
+            "Carlisle",
+            "Duxbury",
+            "Auburn",
+            "Plaistow",
+            "Exeter",
+            "Atkinson",
+            "Marion",
+            "Merrimac",
+            "Sandown",
+            "Nahant",
+            "North Waltham",
+            "Chester",
+            "Babson Park",
+            "South Hamilton",
+            "Dorchester",
+            "Wellesley Hills",
+            "Sharon",
+            "East Walpole",
+            "South Weymouth",
+            "Abington",
+            "Kingston",
+            "Manomet",
+            "Hampton",
+            "Rye",
+            "Newmarket",
+            "Barrington",
+            "New Castle",
+            "Newton Junction",
+            "Center Strafford",
+            "Newfields",
+            "Raymond",
+            "Kingston",
+            "Rollinsford",
+            "East Candia",
+            "Northwood",
+            "Farmington",
+            "Newington",
+            "Candia",
+            "Epping",
+            "Newton",
+            "Wareham",
+            "East Wareham",
+            "Carver",
+            "Mattapoisett",
+            "Lakeville",
+            "Whitman",
+            "Pepperell",
+            "Townsend",
+            "Bellingham",
+            "Salisbury",
+            "Norfolk",
+            "Greenbush",
+            "Brookline Village",
+            "West Medford",
+            "Waverley",
+            "Sheldonville",
+            "North Hampton",
+            "North Salem",
+            "Roslindale",
+            "Milton",
+            "Ocean Bluff",
+            "Hathorne",
+            "Readville",
+            "Byfield",
+            "Minot",
+            "East Hampstead",
+            "Waban",
+            "Pinehurst",
+            "South Walpole",
+            "West Nottingham",
+            "Rye Beach",
+            "East Kingston",
+            "West Groton",
+            "Ashby",
+            "Marshfield Hills",
+            "West Boxford",
+            "West Townsend",
+            "North Weymouth",
+            "Plainville",
+            "Madbury",
+            "Fremont",
+            "Danville",
+            "West Newbury",
+            "Humarock",
+            "Brant Rock",
+            "New Town",
+            "Onset",
+            "Bryantville",
+            "Plympton",
+            "Deerfield",
+            "Dunstable",
+            "Dover",
+            "Accord",
+            "Prides Crossing",
+            "Elmwood",
+            "North Pembroke",
+            "Halifax",
+            "East Derry",
+            "Lee",
+            "Nutting Lake",
+            "North Scituate",
+            "Newton Upper Falls",
+            "Greenland",
+            "North Carver",
+            "West Wareham",
+            "Monponsett",
+            "Village Of Nagog Woods",
+            "Newton Lower Falls",
+            "North Marshfield",
+            "New Durham",
+            "Milton Mills",
+            "Nonantum",
+            "Rochester",
+            "Woodville",
+            "South Carver",
+            "Green Harbor",
+            "Somersworth",
+            "Nottingham",
+            "Mattapan",
+            "Sherborn",
+            "Strafford",
+            "Milton Village",
+            "Newton Highlands",
+            "East Weymouth",
+            "Winthrop",
+            "Groveland",
+            "Shirley",
+            "East Bridgewater",
+            "Essex",
+            "Hull",
+            "Hamilton"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +324,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         gsc = GoogleSignIn.getClient(this, gso);
-
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             String Name = account.getDisplayName();
@@ -60,8 +335,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 saveEdit();
             }
         });
-        location = findViewById(R.id.welcome_location);
+        ArrayAdapter<String> city_adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, cities);
         gym = findViewById(R.id.welcome_gym);
+        chooseCityView = findViewById(R.id.location_autocomplete);
+        chooseCityView.setThreshold(1);
+        chooseCityView.setAdapter(city_adapter);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         getCurrentDetails();
 
@@ -82,7 +360,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        location.setText(document.getData().get("location").toString());
+                        chooseCityView.setText(document.getData().get("location").toString());
                         gym.setText(document.getData().get("gym").toString());
                         Log.d("d", "DocumentSnapshot data: " + document.getData());
 
@@ -106,12 +384,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         db.collection("users").
                 document(account.getEmail()).update("gym", gym.getText().toString(),
-                        "location",location.getText().toString()).
+                        "location",chooseCityView.getText().toString()).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("hi", "DocumentSnapshot successfully written!");
-                        Toast.makeText(getApplicationContext(),"Editted Successfully!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Edited Successfully!",Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -136,7 +414,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         User newUser = new User(account.getDisplayName(), account.getId(),
-                location.getText().toString(), gym.getText().toString(), account.getEmail(), new ArrayList<String>());
+                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>());
 
         db.collection("users").document(newUser.getEmail()).set(newUser).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
