@@ -5,19 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".FriendProfileActivity">
+    <TextView
+        android:id="@+id/friendProfileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Profile Name"
+        android:textSize="@dimen/regular_textSize"/>
+    <TextView
+        android:id="@+id/friendProfileLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Location"
+        android:textSize="@dimen/regular_textSize"/>
+    <TextView
+        android:id="@+id/friendProfileGym"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Gym"
+        android:textSize="@dimen/regular_textSize"/>
     <TextView
         android:id="@+id/friendProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder"
         android:textSize="@dimen/regular_textSize"/>
-    <Button
-        android:id="@+id/friendProfileBackButton"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/back_button"
-        />
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/removeFriendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/removeFriend_button"/>
+        <Button
+            android:id="@+id/friendProfileChatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chat"/>
+        <Button
+            android:id="@+id/friendProfileBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_button"
+            />
+    </LinearLayout>
+
 
 
 </LinearLayout>

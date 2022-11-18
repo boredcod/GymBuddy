@@ -7,6 +7,9 @@
     <string name="button_search">Search</string>
     <string name="back_button">Back</string>
     <string name="changeProfile_button">Change Profile</string>
+    <string name="chat">Chat</string>
+    <string name="removeFriend_button">Remove from Friends</string>
+    <string name="send_button">send</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

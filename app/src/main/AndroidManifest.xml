@@ -16,6 +16,9 @@
         android:theme="@style/Theme.GymBuddy"
         tools:targetApi="31">
         <activity
+            android:name=".MessageActivity"
+            android:exported="false" />
+        <activity
             android:name=".FriendProfileActivity"
             android:exported="false" />
         <activity
