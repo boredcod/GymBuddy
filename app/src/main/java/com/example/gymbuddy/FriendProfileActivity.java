@@ -76,6 +76,9 @@ public class FriendProfileActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         DocumentReference docRef = db.collection("users").document(account.getEmail());
         docRef.update("friendlist", FieldValue.arrayRemove(p_email));
+
+        DocumentReference docRefOfFriend = db.collection("users").document(p_email);
+        docRefOfFriend.update("friendlist", FieldValue.arrayRemove(account.getEmail()));
         Intent i = new Intent(this,AddFriendActivity.class);
         startActivity(i);
     }

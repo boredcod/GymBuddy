@@ -10,6 +10,8 @@
         <entry key="app/src/main/res/layout/activity_message.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_message2.xml" value="0.175" />
         <entry key="app/src/main/res/layout/fragment_friend_list.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/fragment_pending_friends.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/fragment_pending_invites.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/friend_row.xml" value="0.15520833333333334" />
         <entry key="app/src/main/res/layout/item_chat.xml" value="0.175" />
         <entry key="app/src/main/res/layout/item_messagebox.xml" value="0.20833333333333334" />

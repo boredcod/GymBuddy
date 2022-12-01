@@ -30,13 +30,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddFriendActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     EditText searchFriends;
     Button searchButton;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
-    LinearLayout fragContainer;
+    LinearLayout fragContainer, pendingRequestsContainer, pendingInvitesContainer;
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,17 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
         FriendListFragment curr_frag = new FriendListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentFriendList, curr_frag).commit();
+
+        pendingRequestsContainer = findViewById(R.id.pendingFriendsFragmentList);
+        PendingFriendsFragment curr_pendingRequest = new PendingFriendsFragment();
+        FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+        ft2.replace(R.id.fragmentPendingRequests, curr_pendingRequest).commit();
+
+        pendingInvitesContainer = findViewById(R.id.pendingInvitesFragmentList);
+        PendingInvitesFragment curr_invites = new PendingInvitesFragment();
+        FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
+        ft3.replace(R.id.fragmentPendingInvites, curr_invites).commit();
+
     }
 
     private void addFriendsToFB() {
@@ -67,7 +81,10 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
 
 
         String c_v = searchFriends.getText().toString();
-
+        if (c_v.equals(account.getEmail())){
+            Toast.makeText(getApplicationContext(),"You cannot add yourself!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         DocumentReference docRef = db.collection("users").document(c_v);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -76,14 +93,17 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         db.collection("users").
-                                document(account.getEmail()).update("friendlist", FieldValue.arrayUnion(c_v)).
+                                document(account.getEmail()).update("pendingRequests", FieldValue.arrayUnion(c_v)).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(getApplicationContext(), "Added Successfully!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Sent Friend Request!", Toast.LENGTH_SHORT).show();
                                         FriendListFragment curr_frag = new FriendListFragment();
                                         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.fragmentFriendList, curr_frag).commit();
+                                        PendingFriendsFragment pending_frag = new PendingFriendsFragment();
+                                        FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                                        ft2.replace(R.id.fragmentPendingRequests, pending_frag).commit();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -92,7 +112,25 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                                         Log.w("d", "Error writing document", e);
                                     }
                                 });
-                        Log.d("d", "DocumentSnapshot data in onComplete: " + document.getData());
+                        db.collection("users").document(c_v).update("pendingInvites", FieldValue.arrayUnion(account.getEmail())).
+                                addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getApplicationContext(), "Sent Friend Request to the user", Toast.LENGTH_SHORT).show();
+                                        FriendListFragment curr_frag = new FriendListFragment();
+                                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.fragmentFriendList, curr_frag).commit();
+                                        PendingInvitesFragment curr_invites = new PendingInvitesFragment();
+                                        FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
+                                        ft3.replace(R.id.fragmentPendingInvites, curr_invites).commit();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("d", "Error writing document", e);
+                                    }
+                                });
                     } else {
                         Log.d("d", "Document doesn't exist");
                     }

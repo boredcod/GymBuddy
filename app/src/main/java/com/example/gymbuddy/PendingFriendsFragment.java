@@ -1,5 +1,7 @@
 package com.example.gymbuddy;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,17 +21,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FriendListFragment#newInstance} factory method to
+ * Use the {@link PendingFriendsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FriendListFragment extends Fragment {
+public class PendingFriendsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,12 +41,13 @@ public class FriendListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     ArrayList<User> users;
     ListView listView;
     ArrayList<String> friendlist;
+    ArrayList<String> friendlist_forDelete;
     private static FriendListAdapter adapter;
-    public FriendListFragment() {
+
+    public PendingFriendsFragment() {
         // Required empty public constructor
     }
 
@@ -54,16 +57,47 @@ public class FriendListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FriendListFragment.
+     * @return A new instance of fragment PendingFriendsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FriendListFragment newInstance(String param1, String param2) {
-        FriendListFragment fragment = new FriendListFragment();
+    public static PendingFriendsFragment newInstance(String param1, String param2) {
+        PendingFriendsFragment fragment = new PendingFriendsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+    public void showDialog(User user){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
+
+        DocumentReference docRef = db.collection("users").document(account.getEmail());
+
+
+        String curr_user_email = user.getEmail();
+
+        DocumentReference docRefOfFriend = db.collection("users").document(curr_user_email);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Rescind Friend Request?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                docRefOfFriend.update("pendingInvites",FieldValue.arrayRemove(account.getEmail()));
+                docRef.update("pendingRequests", FieldValue.arrayRemove(curr_user_email));
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -81,8 +115,8 @@ public class FriendListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_friend_list, container, false);
-        listView = v.findViewById(R.id.friendFragmentList);
+        View v = inflater.inflate(R.layout.fragment_pending_friends, container, false);
+        listView = v.findViewById(R.id.pendingFriendsFragmentList);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
@@ -94,9 +128,10 @@ public class FriendListFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        friendlist = (ArrayList<String>) document.getData().get("friendlist");
+                        friendlist = (ArrayList<String>) document.getData().get("pendingRequests");
+                        friendlist_forDelete = friendlist;
                         if (friendlist.size() == 0){
-                            Log.d("d", "no friendlist");
+                            Log.d("d", "no pending friends");
                         }else {
                             final long[] pendingLoadCount = {friendlist.size()};
                             while (friendlist.size() > 0){
@@ -129,9 +164,7 @@ public class FriendListFragment extends Fragment {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                                     User pos_user = adapter.getItem(i);
-                                                    Intent intent = new Intent(getActivity(),FriendProfileActivity.class);
-                                                    intent.putExtra("user_email" ,pos_user.getEmail());
-                                                    startActivity(intent);
+                                                    showDialog(pos_user);
                                                 }
                                             });
                                         }

@@ -17,11 +17,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_search"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Friends"/>
     <LinearLayout
         android:id="@+id/fragmentFriendList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sent Friend Requests"/>
+    <LinearLayout
+        android:id="@+id/fragmentPendingRequests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Requests"/>
+    <LinearLayout
+        android:id="@+id/fragmentPendingInvites"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,7 @@
 package com.example.gymbuddy;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class User {
     private String name;
@@ -9,14 +10,20 @@ public class User {
     private String gym;
     private String email;
     private ArrayList<String> friendlist;
+    private ArrayList<String> pendingRequests;
+    private ArrayList<String> pendingInvites;
 
-    public User(String name, String uID, String location, String workoutType, String email, ArrayList<String> friendlist) {
+
+    public User(String name, String uID, String location, String workoutType, String email, ArrayList<String> friendlist,
+               ArrayList<String> pendingRequests,ArrayList<String> pendingInvites) {
         this.name = name;
         this.uID = uID;
         this.location = location;
         this.gym = workoutType;
         this.email = email;
         this.friendlist = friendlist;
+        this.pendingInvites = pendingInvites;
+        this.pendingRequests = pendingRequests;
 
     }
 
@@ -44,6 +51,14 @@ public class User {
         return gym;
     }
 
+    public ArrayList<String> getPendingInvites() {
+        return pendingInvites;
+    }
+
+    public ArrayList<String> getPendingRequests() {
+        return pendingRequests;
+    }
+
     public void setFriendlist(ArrayList<String> friendlist) {
         this.friendlist = friendlist;
     }
@@ -66,5 +81,13 @@ public class User {
 
     public void setGym(String gym) {
         this.gym = gym;
+    }
+
+    public void setPendingInvites(ArrayList<String> pendingInvites) {
+        this.pendingInvites = pendingInvites;
+    }
+
+    public void setPendingRequests(ArrayList<String> pendingRequests) {
+        this.pendingRequests = pendingRequests;
     }
 }

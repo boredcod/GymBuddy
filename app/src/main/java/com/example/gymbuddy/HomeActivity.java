@@ -35,6 +35,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     String[] cities = {"", "Boston",
@@ -430,7 +431,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         User newUser = new User(account.getDisplayName(), account.getId(),
-                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>());
+                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>(),new ArrayList<>(),new ArrayList<>());
 
         db.collection("users").document(newUser.getEmail()).set(newUser).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
