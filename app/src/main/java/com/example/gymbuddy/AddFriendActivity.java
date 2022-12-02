@@ -133,8 +133,10 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                                 });
                     } else {
                         Log.d("d", "Document doesn't exist");
+                        Toast.makeText(getApplicationContext(),"No Such User !",Toast.LENGTH_SHORT).show();
                     }
                 } else {
+
                     Log.d("d", "get failed with ", task.getException());
                 }
             }

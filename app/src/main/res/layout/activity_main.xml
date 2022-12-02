@@ -14,6 +14,12 @@
         android:layout_height="wrap_content"
         android:text="@string/app_title"
         android:textSize="@dimen/title_textSize" />
+    <ImageView
+        android:src="@drawable/dumbell_human"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
