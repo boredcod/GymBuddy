@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -88,6 +89,7 @@ public class PendingFriendsFragment extends Fragment {
                 // User clicked OK button
                 docRefOfFriend.update("pendingInvites",FieldValue.arrayRemove(account.getEmail()));
                 docRef.update("pendingRequests", FieldValue.arrayRemove(curr_user_email));
+                Toast.makeText(getActivity(),"Refresh this page to see updated list",Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -165,6 +167,7 @@ public class PendingFriendsFragment extends Fragment {
                                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                                     User pos_user = adapter.getItem(i);
                                                     showDialog(pos_user);
+
                                                 }
                                             });
                                         }

@@ -488,6 +488,9 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 startActivity(new Intent(getApplicationContext(), AddFriendActivity.class));
                 System.out.println("menu_addFriends");
                 return true;
+            case R.id.menu_randomMatching:
+                startActivity(new Intent(getApplicationContext(), RandomMatchingActivity.class));
+                return true;
             case R.id.menu_logOut:
                 SignOut();
                 return true;

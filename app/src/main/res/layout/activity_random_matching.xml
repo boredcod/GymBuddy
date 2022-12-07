@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".RandomMatchingActivity">
+
+
+    <ImageView
+        android:id="@+id/random_match_profile_image"
+        android:layout_marginTop="@dimen/regular_marginTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/dumbell_human" />
+    <TextView
+        android:id="@+id/random_match_profile_name"
+        android:layout_marginTop="@dimen/regular_marginTop"
+        android:textSize="@dimen/regular_textSize"
+        android:text="@string/placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/random_match_profile_location"
+        android:layout_marginTop="@dimen/regular_marginTop"
+        android:textSize="@dimen/regular_textSize"
+        android:text="@string/placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/random_match_profile_gym"
+        android:layout_marginTop="@dimen/regular_marginTop"
+        android:textSize="@dimen/regular_textSize"
+        android:text="@string/placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/random_match_profile_yes"
+        android:text="@string/Yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/regular_marginTop"
+        />
+    <Button
+        android:id="@+id/random_match_profile_no"
+        android:text="@string/No"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_menu" />
+    </LinearLayout>
+</LinearLayout>

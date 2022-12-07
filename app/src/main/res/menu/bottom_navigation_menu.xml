@@ -5,6 +5,10 @@
         android:enabled="true"
         android:title="Home"/>
     <item
+        android:id="@+id/menu_randomMatching"
+        android:enabled="true"
+        android:title="Random"/>
+    <item
         android:id="@+id/menu_addFriends"
         android:enabled="true"
         android:title="Add Friends"/>
@@ -12,4 +16,5 @@
         android:id="@+id/menu_logOut"
         android:enabled="true"
         android:title="Log Out"/>
+
 </menu>

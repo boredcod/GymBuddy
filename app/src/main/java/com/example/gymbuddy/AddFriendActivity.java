@@ -162,6 +162,9 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 System.out.println("menu_home");
                 return true;
+            case R.id.menu_randomMatching:
+                startActivity(new Intent(getApplicationContext(), RandomMatchingActivity.class));
+                return true;
             case R.id.menu_addFriends:
                 System.out.println("menu_addFriends");
                 return true;

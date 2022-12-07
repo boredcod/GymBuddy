@@ -10,6 +10,8 @@
     <string name="chat">Chat</string>
     <string name="removeFriend_button">Remove from Friends</string>
     <string name="send_button">send</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
