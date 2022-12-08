@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class FriendProfileActivity extends AppCompatActivity {
-    TextView passed_email, profileName, profileGym, profileLocation;
+    TextView passed_email, profileName, profileGym, profileLocation, profileDescription;
     Button back_button, removeFriend_button, chat_button;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
@@ -46,6 +46,7 @@ public class FriendProfileActivity extends AppCompatActivity {
         profileName = findViewById(R.id.friendProfileName);
         profileLocation = findViewById(R.id.friendProfileLocation);
         profileGym = findViewById(R.id.friendProfileGym);
+        profileDescription = findViewById(R.id.friendProfileDescription);
         removeFriend_button = findViewById(R.id.removeFriendButton);
         removeFriend_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +95,8 @@ public class FriendProfileActivity extends AppCompatActivity {
                         profileName.setText(document.getData().get("name").toString());
                         profileLocation.setText(document.getData().get("location").toString());
                         profileGym.setText(document.getData().get("gym").toString());
+                        profileDescription.setText(document.getData().get("description").toString());
+
                     } else {
                         Log.d("d", "No such document");
                     }

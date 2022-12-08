@@ -12,10 +12,10 @@ public class User {
     private ArrayList<String> friendlist;
     private ArrayList<String> pendingRequests;
     private ArrayList<String> pendingInvites;
-
+    private String description;
 
     public User(String name, String uID, String location, String workoutType, String email, ArrayList<String> friendlist,
-               ArrayList<String> pendingRequests,ArrayList<String> pendingInvites) {
+               ArrayList<String> pendingRequests,ArrayList<String> pendingInvites, String description) {
         this.name = name;
         this.uID = uID;
         this.location = location;
@@ -24,7 +24,11 @@ public class User {
         this.friendlist = friendlist;
         this.pendingInvites = pendingInvites;
         this.pendingRequests = pendingRequests;
+        this.description = description;
+    }
 
+    public String getDescription() {
+        return description;
     }
 
     public ArrayList<String> getFriendlist() {
@@ -57,6 +61,10 @@ public class User {
 
     public ArrayList<String> getPendingRequests() {
         return pendingRequests;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setFriendlist(ArrayList<String> friendlist) {

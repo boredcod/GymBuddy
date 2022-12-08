@@ -3,4 +3,5 @@
     <dimen name="title_textSize">32dp</dimen>
     <dimen name="regular_textSize">24dp</dimen>
     <dimen name="regular_marginTop">50dp</dimen>
+    <dimen name="small_marginTop">24dp</dimen>
 </resources>

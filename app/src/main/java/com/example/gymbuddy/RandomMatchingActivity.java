@@ -34,16 +34,17 @@ import org.checkerframework.checker.units.qual.A;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomMatchingActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class RandomMatchingActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
     String location;
     List<User> sameLocationUsers;
-    TextView profile_name,profile_location,profile_gym;
+    TextView profile_name, profile_location, profile_gym, profile_description;
     String curr_user_email = "";
     Button profile_yes, profile_no;
     List<String> curr_friendlist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +57,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         profile_name = findViewById(R.id.random_match_profile_name);
         profile_location = findViewById(R.id.random_match_profile_location);
         profile_gym = findViewById(R.id.random_match_profile_gym);
+        profile_description = findViewById(R.id.random_match_profile_description);
         profile_yes = findViewById(R.id.random_match_profile_yes);
         profile_no = findViewById(R.id.random_match_profile_no);
 
@@ -69,7 +71,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    curr_friendlist = (ArrayList<String>)document.getData().get("friendlist");
+                    curr_friendlist = (ArrayList<String>) document.getData().get("friendlist");
                 }
             }
         });
@@ -77,41 +79,48 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         profile_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sameLocationUsers.size() == 0){
-                    Toast.makeText(getApplicationContext(), "No more users in the area",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                System.out.println("Curr User email " + curr_user_email + " My email " + account.getEmail());
+                if (curr_user_email.equals(account.getEmail()) || (curr_friendlist.contains(curr_user_email))) {
+                    Toast.makeText(getApplicationContext(), "You cannot add yourself or " +
+                            "The person is already in the friends list", Toast.LENGTH_LONG).show();
                 } else {
-                    System.out.println("Curr User email " + curr_user_email + " My email " + account.getEmail());
-                    if (curr_user_email.equals(account.getEmail()) || (curr_friendlist.contains(curr_user_email))) {
-                        Toast.makeText(getApplicationContext(), "You cannot add yourself or " +
-                                "The person is already in the friends list", Toast.LENGTH_LONG).show();
-                    }else {
-                        addUser(curr_user_email);
-                    }
+                    addUser(curr_user_email);
+                }
+                if (sameLocationUsers.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                } else {
                     User curr_user = sameLocationUsers.remove(0);
+                    curr_user_email = curr_user.getEmail();
+                    System.out.println("curr user email: " + curr_user_email);
                     profile_name.setText(curr_user.getName());
                     profile_location.setText(curr_user.getLocation());
                     profile_gym.setText(curr_user.getGym());
+                    profile_description.setText(curr_user.getDescription());
                 }
+
             }
         });
         profile_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (sameLocationUsers.size() == 0 ){
-                    Toast.makeText(getApplicationContext(), "No more users in the area",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                if (sameLocationUsers.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 } else {
                     User curr_user = sameLocationUsers.remove(0);
+                    curr_user_email = curr_user.getEmail();
                     profile_name.setText(curr_user.getName());
                     profile_location.setText(curr_user.getLocation());
                     profile_gym.setText(curr_user.getGym());
+                    profile_description.setText(curr_user.getDescription());
                     curr_user_email = curr_user.getEmail();
                 }
             }
         });
 
     }
+
     private void addUser(String addUserEmail) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -143,7 +152,8 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                     }
                 });
     }
-    private void getUsersInSameLocation(){
+
+    private void getUsersInSameLocation() {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -152,11 +162,11 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()){
+                    if (document.exists()) {
                         location = document.getData().get("location").toString();
-                        db.collection("users").whereEqualTo("location",location).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        db.collection("users").whereEqualTo("location", location).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -167,12 +177,12 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                                         pi = (ArrayList<String>) d.getData().get("pendingInvites");
                                         ArrayList<String> pr = new ArrayList<>();
                                         pr = (ArrayList<String>) d.getData().get("pendingRequests");
-                                        User curr = new User(d.getData().get("name").toString(), d.getData().get("uID").toString(),  d.getData().get("location").toString(),
+                                        User curr = new User(d.getData().get("name").toString(), d.getData().get("uID").toString(), d.getData().get("location").toString(),
                                                 d.getData().get("gym").toString(),
                                                 d.getData().get("email").toString(),
                                                 fl,
                                                 pi,
-                                                pr);
+                                                pr, d.getData().get("description").toString());
                                         sameLocationUsers.add(curr);
 
                                         System.out.println(sameLocationUsers.get(0).getEmail());
@@ -183,11 +193,13 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                                     profile_name.setText(curr_user.getName());
                                     profile_location.setText(curr_user.getLocation());
                                     profile_gym.setText(curr_user.getGym());
+                                    profile_description.setText(curr_user.getDescription());
                                     curr_user_email = curr_user.getEmail();
+                                    System.out.println("curr user email is: " + curr_user_email);
 
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "No more users in the area",Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                                    Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                                     Log.d("D", "Error getting documents: ", task.getException());
                                 }
                             }
@@ -198,6 +210,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         });
 
     }
+
     private void SignOut() {
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -207,6 +220,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
             }
         });
     }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

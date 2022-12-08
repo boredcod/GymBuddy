@@ -150,8 +150,9 @@ public class PendingFriendsFragment extends Fragment {
                                                 String curr_location = document.getData().get("location").toString();
                                                 String curr_gym = document.getData().get("gym").toString();
                                                 String curr_email = document.getData().get("email").toString();
+                                                String curr_description = document.getData().get("description").toString();
                                                 users.add(new User(curr_name,curr_uid,curr_location,curr_gym,curr_email,new ArrayList<>(),
-                                                        new ArrayList<>(),new ArrayList<>()));
+                                                        new ArrayList<>(),new ArrayList<>(),curr_description));
                                             } else {
                                                 Log.d("d", "No such document");
                                             }

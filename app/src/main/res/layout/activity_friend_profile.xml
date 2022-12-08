@@ -26,6 +26,12 @@
         android:text="No Gym"
         android:textSize="@dimen/regular_textSize"/>
     <TextView
+        android:id="@+id/friendProfileDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Description"
+        android:textSize="@dimen/regular_textSize"/>
+    <TextView
         android:id="@+id/friendProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -12,6 +12,10 @@
     <string name="send_button">send</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
+    <string name="Description">Description</string>
+    <string name="Name">Name</string>
+    <string name="Location">Location</string>
+    <string name="Gym">Gym</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

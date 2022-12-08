@@ -313,7 +313,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             "Hamilton"};
     TextView name;
     Button saveButton, changeProfileButton;
-    EditText gym;
+    EditText gym, description;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
@@ -356,6 +356,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         chooseCityView.setThreshold(1);
         chooseCityView.setAdapter(city_adapter);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        description = findViewById(R.id.welcome_description);
         getCurrentDetails();
 
 
@@ -378,6 +379,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                     if (document.exists()) {
                         chooseCityView.setText(document.getData().get("location").toString());
                         gym.setText(document.getData().get("gym").toString());
+                        description.setText(document.getData().get("description").toString());
                         Log.d("d", "DocumentSnapshot data: " + document.getData());
 
                         Log.d("d", "friendlist: " + document.getData().get("friendlist"));
@@ -400,7 +402,8 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
         db.collection("users").
                 document(account.getEmail()).update("gym", gym.getText().toString(),
-                        "location", chooseCityView.getText().toString()).
+                        "location", chooseCityView.getText().toString(),
+                        "description", description.getText().toString()).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -431,7 +434,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         User newUser = new User(account.getDisplayName(), account.getId(),
-                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>(),new ArrayList<>(),new ArrayList<>());
+                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>(),new ArrayList<>(),new ArrayList<>(), "");
 
         db.collection("users").document(newUser.getEmail()).set(newUser).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
