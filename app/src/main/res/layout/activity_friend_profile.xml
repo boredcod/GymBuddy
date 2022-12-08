@@ -7,39 +7,50 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".FriendProfileActivity">
+
     <TextView
         android:id="@+id/friendProfileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
         android:text="No Profile Name"
-        android:textSize="@dimen/regular_textSize"/>
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/friendProfileLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
         android:text="No Location"
-        android:textSize="@dimen/regular_textSize"/>
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/friendProfileGym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
         android:text="No Gym"
-        android:textSize="@dimen/regular_textSize"/>
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/friendProfileDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
         android:text="No Description"
-        android:textSize="@dimen/regular_textSize"/>
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/friendProfileEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
         android:text="@string/placeholder"
-        android:textSize="@dimen/regular_textSize"/>
+        android:textSize="@dimen/regular_textSize" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:orientation="horizontal">
         <Button
             android:id="@+id/removeFriendButton"
@@ -51,12 +62,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/chat"/>
+
         <Button
             android:id="@+id/friendProfileBackButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/back_button"
-            />
+            android:text="@string/back_button" />
     </LinearLayout>
 
 

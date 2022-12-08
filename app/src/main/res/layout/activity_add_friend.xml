@@ -11,7 +11,9 @@
         android:hint="Search Users By Email"
         android:id ="@+id/searchFriendsByEmail"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+
+        />
     <Button
         android:id ="@+id/completeSearchFriendsButton"
         android:layout_width="wrap_content"

@@ -93,8 +93,8 @@ public class FriendProfileActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         profileName.setText(document.getData().get("name").toString());
-                        profileLocation.setText(document.getData().get("location").toString());
-                        profileGym.setText(document.getData().get("gym").toString());
+                        profileLocation.setText("Location: "+document.getData().get("location").toString());
+                        profileGym.setText("Gym:"+ document.getData().get("gym").toString());
                         profileDescription.setText(document.getData().get("description").toString());
 
                     } else {

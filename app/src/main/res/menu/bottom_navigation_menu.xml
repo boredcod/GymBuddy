@@ -3,7 +3,8 @@
     <item
         android:id="@+id/menu_home"
         android:enabled="true"
-        android:title="Home"/>
+        android:title="Home"
+        />
     <item
         android:id="@+id/menu_randomMatching"
         android:enabled="true"

@@ -4,29 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/GymBuddyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
         android:text="@string/app_title"
-        android:textSize="@dimen/title_textSize" />
+        android:textSize="55sp"
+        android:textStyle="" />
+
     <ImageView
-        android:src="@drawable/dumbell_human"
+        android:layout_width="150dp"
+        android:layout_height="131dp"
         android:layout_marginTop="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:src="@drawable/dumbell_human" />
 
     <Button
+        android:id="@+id/GoogleAuthButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:id="@+id/GoogleAuthButton"
         android:text="@string/google_login"
-        android:textSize="@dimen/title_textSize"
-        />
+        android:textSize="@dimen/title_textSize" />
 
 </LinearLayout>

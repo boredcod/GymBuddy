@@ -15,66 +15,82 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/dumbell_human" />
+
     <TextView
         android:id="@+id/random_match_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Description"/>
+        android:fontFamily="@font/autour_one"
+        android:text="@string/Description" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/random_match_profile_description"
-        android:textSize="@dimen/regular_textSize"
-        android:text="@string/placeholder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
+        android:text="@string/placeholder"
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/random_match_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Name"/>
+        android:fontFamily="@font/autour_one"
+        android:text="@string/Name" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/random_match_profile_name"
-        android:textSize="@dimen/regular_textSize"
-        android:text="@string/placeholder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
+        android:text="@string/placeholder"
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/random_match_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Location"/>
+        android:fontFamily="@font/autour_one"
+        android:text="@string/Location" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/random_match_profile_location"
-        android:textSize="@dimen/regular_textSize"
-        android:text="@string/placeholder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
+        android:text="@string/placeholder"
+        android:textSize="@dimen/regular_textSize" />
+
     <TextView
         android:id="@+id/random_match_gym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Gym"/>
+        android:fontFamily="@font/autour_one"
+        android:text="@string/Gym" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+
     <TextView
         android:id="@+id/random_match_profile_gym"
-        android:textSize="@dimen/regular_textSize"
-        android:text="@string/placeholder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/autour_one"
+        android:text="@string/placeholder"
+        android:textSize="@dimen/regular_textSize" />
     <Button
         android:id="@+id/random_match_profile_yes"
         android:text="@string/Yes"
@@ -94,10 +110,12 @@
         android:gravity="center|bottom"
         android:orientation="vertical"
         android:layout_weight="1">
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/blush_pinkSecondary"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_navigation_menu" />
     </LinearLayout>
