@@ -3,9 +3,12 @@ package com.example.gymbuddy;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -33,9 +37,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.OnProgressListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 
 public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     String[] cities = {"", "Boston",
@@ -312,14 +324,18 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             "Hull",
             "Hamilton"};
     TextView name;
-    Button saveButton, changeProfileButton;
+    Button saveButton, changeProfileButton, uploadProfileButton;
     EditText gym, description;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     BottomNavigationView bottomNavigationView;
     AutoCompleteTextView chooseCityView;
     ImageView profileImage;
-    int SELECT_PICTURE = 200;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    StorageReference ImagesRef;
+    private Uri image_path;
+    private final int PICK_IMAGE_REQUEST = 22;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,16 +345,23 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         saveButton = findViewById(R.id.saveProfile_button);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_home);
         gsc = GoogleSignIn.getClient(this, gso);
-        profileImage=findViewById(R.id.homeProfileImage);
-        changeProfileButton=findViewById(R.id.changeProfileImage);
+        profileImage = findViewById(R.id.homeProfileImage);
+        changeProfileButton = findViewById(R.id.changeProfileImage);
         changeProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageChooser();
             }
         });
-
+        uploadProfileButton = findViewById(R.id.uploadProfileImage);
+        uploadProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage();
+            }
+        });
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
             String Name = account.getDisplayName();
@@ -350,6 +373,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 saveEdit();
             }
         });
+
         ArrayAdapter<String> city_adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_singlechoice, cities);
         gym = findViewById(R.id.welcome_gym);
         chooseCityView = findViewById(R.id.location_autocomplete);
@@ -357,11 +381,28 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         chooseCityView.setAdapter(city_adapter);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         description = findViewById(R.id.welcome_description);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         getCurrentDetails();
 
 
     }
-
+    private void getProfileImageAndSet(){
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        String fileP = "images/" + account.getEmail();
+        storageRef.child(fileP).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                System.out.println("worked");
+                Glide.with(getApplicationContext()).load(uri.toString()).into(profileImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                System.out.println(exception);
+            }
+        });
+    }
     private void getCurrentDetails() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -387,6 +428,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                         createNewUser();
                         Log.d("d", "No such document");
                     }
+                    getProfileImageAndSet();
                 } else {
                     Log.d("d", "get failed with ", task.getException());
                 }
@@ -434,7 +476,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         User newUser = new User(account.getDisplayName(), account.getId(),
-                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>(),new ArrayList<>(),new ArrayList<>(), "");
+                "", gym.getText().toString(), account.getEmail(), new ArrayList<String>(), new ArrayList<>(), new ArrayList<>(), "");
 
         db.collection("users").document(newUser.getEmail()).set(newUser).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -461,23 +503,77 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
     }
+
     void imageChooser() {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    profileImage.setImageURI(selectedImageUri);
-                }
+        if (requestCode == PICK_IMAGE_REQUEST
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null) {
+
+            // Get the Uri of data
+            image_path = data.getData();
+            try {
+
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore
+                        .Images
+                        .Media
+                        .getBitmap(
+                                getContentResolver(),
+                                image_path);
+                profileImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
             }
+        }
+    }
+
+    private void uploadImage() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (image_path != null) {
+
+            // Defining the child of storageReference
+            StorageReference ref
+                    = storageRef
+                    .child(
+                            "images/"
+                                    + account.getEmail());
+
+
+            ref.putFile(image_path)
+                    .addOnSuccessListener(
+                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                                @Override
+                                public void onSuccess(
+                                        UploadTask.TaskSnapshot taskSnapshot) {
+
+                                    // Image uploaded successfully
+                                    Toast
+                                            .makeText(getApplicationContext(),
+                                                    "Image Uploaded!!",
+                                                    Toast.LENGTH_SHORT)
+                                            .show();
+                                }
+                            })
+
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            System.out.println("failed");
+                        }
+                    });
         }
     }
 
@@ -486,17 +582,17 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()) {
             case R.id.menu_home:
                 System.out.println("menu_home");
-                return true;
+                return false;
             case R.id.menu_addFriends:
                 startActivity(new Intent(getApplicationContext(), AddFriendActivity.class));
                 System.out.println("menu_addFriends");
-                return true;
+                return false;
             case R.id.menu_randomMatching:
                 startActivity(new Intent(getApplicationContext(), RandomMatchingActivity.class));
-                return true;
+                return false;
             case R.id.menu_logOut:
                 SignOut();
-                return true;
+                return false;
         }
         return false;
     }

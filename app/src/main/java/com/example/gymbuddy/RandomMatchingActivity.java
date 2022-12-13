@@ -52,6 +52,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.menu_randomMatching);
         gsc = GoogleSignIn.getClient(this, gso);
         sameLocationUsers = new ArrayList<>();
         profile_name = findViewById(R.id.random_match_profile_name);

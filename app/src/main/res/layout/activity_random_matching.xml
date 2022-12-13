@@ -4,34 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".RandomMatchingActivity">
 
 
     <ImageView
         android:id="@+id/random_match_profile_image"
-        android:layout_marginTop="@dimen/regular_marginTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/regular_marginTop"
         app:srcCompat="@drawable/dumbell_human" />
 
     <TextView
         android:id="@+id/random_match_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
+
         android:text="@string/Description" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/random_match_profile_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/placeholder"
         android:textSize="@dimen/regular_textSize" />
 
@@ -39,18 +39,18 @@
         android:id="@+id/random_match_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/Name" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/random_match_profile_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
+
         android:text="@string/placeholder"
         android:textSize="@dimen/regular_textSize" />
 
@@ -58,18 +58,17 @@
         android:id="@+id/random_match_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/Location" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/random_match_profile_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/placeholder"
         android:textSize="@dimen/regular_textSize" />
 
@@ -77,39 +76,39 @@
         android:id="@+id/random_match_gym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/Gym" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/random_match_profile_gym"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/autour_one"
         android:text="@string/placeholder"
         android:textSize="@dimen/regular_textSize" />
+
     <Button
         android:id="@+id/random_match_profile_yes"
-        android:text="@string/Yes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/small_marginTop"
-        />
+        android:text="@string/Yes" />
+
     <Button
         android:id="@+id/random_match_profile_no"
-        android:text="@string/No"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:text="@string/No" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:gravity="center|bottom"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:orientation="vertical">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

@@ -48,6 +48,7 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
         searchFriends = findViewById(R.id.searchFriendsByEmail);
         searchButton = findViewById(R.id.completeSearchFriendsButton);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.menu_addFriends);
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
