@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,6 +31,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -44,7 +49,9 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
     String curr_user_email = "";
     Button profile_yes, profile_no;
     List<String> curr_friendlist;
-
+    ImageView profileImage;
+    FirebaseStorage storage;
+    StorageReference storageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +68,9 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         profile_description = findViewById(R.id.random_match_profile_description);
         profile_yes = findViewById(R.id.random_match_profile_yes);
         profile_no = findViewById(R.id.random_match_profile_no);
-
+        profileImage = findViewById(R.id.random_match_profile_image);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         profile_yes.setVisibility(View.INVISIBLE);
         profile_no.setVisibility(View.INVISIBLE);
         curr_friendlist = new ArrayList<>();
@@ -100,6 +109,8 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                     profile_location.setText(curr_user.getLocation());
                     profile_gym.setText(curr_user.getGym());
                     profile_description.setText(curr_user.getDescription());
+                    getProfileImageAndSet();
+
                 }
 
             }
@@ -119,10 +130,27 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                     profile_gym.setText(curr_user.getGym());
                     profile_description.setText(curr_user.getDescription());
                     curr_user_email = curr_user.getEmail();
+                    getProfileImageAndSet();
                 }
             }
         });
 
+    }
+    private void getProfileImageAndSet(){
+        //Get the previous stored Profile Image in the database.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        String fileP = "images/" + curr_user_email;
+        storageRef.child(fileP).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext()).load(uri.toString()).into(profileImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                profileImage.setImageResource(R.drawable.dumbell_human);
+            }
+        });
     }
 
     private void addUser(String addUserEmail) {
@@ -204,6 +232,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                                     profile_gym.setText(curr_user.getGym());
                                     profile_description.setText(curr_user.getDescription());
                                     curr_user_email = curr_user.getEmail();
+                                    getProfileImageAndSet();
 
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();

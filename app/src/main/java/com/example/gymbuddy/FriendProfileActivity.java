@@ -4,29 +4,39 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class FriendProfileActivity extends AppCompatActivity {
     TextView passed_email, profileName, profileGym, profileLocation, profileDescription;
     Button back_button, removeFriend_button, chat_button;
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
+    ImageView profileImage;
     String p_email;
+    FirebaseStorage storage;
+    StorageReference storageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +74,27 @@ public class FriendProfileActivity extends AppCompatActivity {
                 startChat();
             }
         });
+        profileImage = findViewById(R.id.friendProfileImage);
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         getProfileInformation();
+        getProfileImageAndSet();
 
+    }
+    private void getProfileImageAndSet(){
+        //Get the previous stored Profile Image in the database.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        String fileP = "images/" + p_email;
+        storageRef.child(fileP).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(getApplicationContext()).load(uri.toString()).into(profileImage);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+            }
+        });
     }
     private void startChat(){
         //Starts chat activity with your friend by putting passed email from last activity.

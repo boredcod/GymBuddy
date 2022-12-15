@@ -11,8 +11,9 @@
 
     <ImageView
         android:id="@+id/random_match_profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:scaleType="fitXY"
         android:layout_marginTop="@dimen/regular_marginTop"
         app:srcCompat="@drawable/dumbell_human" />
 
@@ -20,7 +21,6 @@
         android:id="@+id/random_match_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:text="@string/Description" />
 
     <View
