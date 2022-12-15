@@ -388,6 +388,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
 
     }
     private void getProfileImageAndSet(){
+        //Get the previous stored Profile Image in the database.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         String fileP = "images/" + account.getEmail();
         storageRef.child(fileP).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -404,10 +405,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         });
     }
     private void getCurrentDetails() {
+        //Gets the Current Stored Details from the database
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account != null) {
+            //Gets the name from the Google Account
             String Name = account.getDisplayName();
             name.setText(Name);
         }
@@ -418,13 +421,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //Gets the stored profile information.
                         chooseCityView.setText(document.getData().get("location").toString());
                         gym.setText(document.getData().get("gym").toString());
                         description.setText(document.getData().get("description").toString());
-                        Log.d("d", "DocumentSnapshot data: " + document.getData());
-
-                        Log.d("d", "friendlist: " + document.getData().get("friendlist"));
                     } else {
+                        //If there are no profile information set up in the database, creates a new profile in the database.
                         createNewUser();
                         Log.d("d", "No such document");
                     }
@@ -437,6 +439,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void saveEdit() {
+        //Saves the edited information to the database.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -467,6 +470,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void createNewUser() {
+        //Creates a new user in the database.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
@@ -495,6 +499,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void SignOut() {
+        //Signs out from the app.
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -505,6 +510,7 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     void imageChooser() {
+        //Chooses image from the gallery.
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
@@ -515,22 +521,12 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             // Get the Uri of data
             image_path = data.getData();
             try {
-
                 // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(
-                                getContentResolver(),
-                                image_path);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), image_path);
                 profileImage.setImageBitmap(bitmap);
             } catch (IOException e) {
                 // Log the exception
@@ -540,40 +536,25 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void uploadImage() {
+        //Uploads the current profile image on the image view to the database.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (image_path != null) {
 
             // Defining the child of storageReference
-            StorageReference ref
-                    = storageRef
-                    .child(
-                            "images/"
-                                    + account.getEmail());
+            StorageReference ref = storageRef.child("images/" + account.getEmail());
 
-
-            ref.putFile(image_path)
-                    .addOnSuccessListener(
-                            new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
+            ref.putFile(image_path).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onSuccess(
-                                        UploadTask.TaskSnapshot taskSnapshot) {
-
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     // Image uploaded successfully
-                                    Toast
-                                            .makeText(getApplicationContext(),
-                                                    "Image Uploaded!!",
-                                                    Toast.LENGTH_SHORT)
-                                            .show();
+                                    Toast.makeText(getApplicationContext(), "Image Uploaded!!", Toast.LENGTH_SHORT).show();
                                 }
-                            })
-
-                    .addOnFailureListener(new OnFailureListener() {
+            }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             System.out.println("failed");
                         }
-                    });
+            });
         }
     }
 

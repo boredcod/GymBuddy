@@ -54,18 +54,20 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-
         init();
         sendMsg();
     }
     private void sendMsg(){
+        //Sends the Message.
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Puts my email and the other person's email to the chatmessage class.
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.users.put(myEmailClean,true);
                 chatMessage.users.put(otherEmailClean,true);
                 if(chatRoomUid == null){
+                    //Creates a chatroom with random Uid.
                     Toast.makeText(MessageActivity.this,"created chatroom",Toast.LENGTH_SHORT).show();
                     sendButton.setEnabled(false);
                     firebaseDatabase.getReference().child("chatrooms").push().setValue(chatMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -75,12 +77,14 @@ public class MessageActivity extends AppCompatActivity {
                         }
                     });
                 }else {
+                    //If there is a chatroom uid, simply send the message to the database.
                     sendMsgToDatabase();
                 }
             }
         });
     }
     private void init(){
+        //Initializes the activity.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         myEmail = account.getEmail();
         int indexAt = myEmail.indexOf("@");
@@ -98,6 +102,7 @@ public class MessageActivity extends AppCompatActivity {
         checkChatRoom();
     }
     private void sendMsgToDatabase(){
+        //Send the msg to the database if there is a message.
         if (!messageEditText.getText().toString().equals("")){
             ChatMessage.Chat chat = new ChatMessage.Chat();
             chat.userEmail = myEmailClean;
@@ -107,6 +112,7 @@ public class MessageActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+                            //sends the message and cleans out the edit text.
                             Log.d("d", "successfully sent message");
                             messageEditText.setText("");
                         }
@@ -114,6 +120,7 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
     private void checkChatRoom() {
+        //Check the chatroom in the firebase and updates the view accordingly.
         firebaseDatabase.getReference().child("chatrooms").orderByChild("users/"+myEmailClean).equalTo(true)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -139,6 +146,7 @@ public class MessageActivity extends AppCompatActivity {
                 });
     }
     class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder>{
+        //Recycler View adapter for the chatroom.
         List<ChatMessage.Chat> chats;
         public RvAdapter(){
             chats = new ArrayList<>();
@@ -159,6 +167,7 @@ public class MessageActivity extends AppCompatActivity {
             });
         }
         private void getMessageList(){
+            //Gets all the messages stored in the chatroom.
             firebaseDatabase.getReference().child("chatrooms").child(chatRoomUid).child("chats").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -179,6 +188,7 @@ public class MessageActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RvAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            //Inflates the view.
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.message_row,parent,false);
             return new ViewHolder(view);
         }
@@ -201,6 +211,7 @@ public class MessageActivity extends AppCompatActivity {
             viewHolder.tvTimeStamp.setText(getDateTime(position));
         }
         public String getDateTime(int position){
+            //Gets the current time.
             long unixTime = (long) chats.get(position).timestamp;
             Date date = new Date(unixTime);
             String time = simpleDateFormat.format(date);

@@ -25,13 +25,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         google_login = findViewById(R.id.GoogleAuthButton);
-
         gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-
         gsc= GoogleSignIn.getClient(this,gso);
-
         google_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SignIn() {
-
+        //Signs in user through google
         Intent intent=gsc.getSignInIntent();
         startActivityForResult(intent, 100);
     }
@@ -49,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode==100){
             Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
+                //After signing in, starts the Home Activity
                 task.getResult(ApiException.class);
                 HomeActivity();
             } catch (ApiException e){

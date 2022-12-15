@@ -86,7 +86,6 @@ public class FriendListFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
-        Log.d("d", "Google account email: " + account.getEmail());
         DocumentReference docRef = db.collection("users").document(account.getEmail());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -94,12 +93,15 @@ public class FriendListFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //initializes friend list with the data from firebase.
                         friendlist = (ArrayList<String>) document.getData().get("friendlist");
                         if (friendlist.size() == 0){
                             Log.d("d", "no friendlist");
                         }else {
+                            //If there are friends in the friendlist
                             final long[] pendingLoadCount = {friendlist.size()};
                             while (friendlist.size() > 0){
+                                //Gets all the friends from the friend list and initialize it with friend list adapter.
                                 String currFriendEmail = friendlist.remove(0);
                                 DocumentReference friendsDocRef = db.collection("users").document(currFriendEmail);
                                 friendsDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -124,11 +126,13 @@ public class FriendListFragment extends Fragment {
                                         }
                                         pendingLoadCount[0] = pendingLoadCount[0] - 1;
                                         if (pendingLoadCount[0] == 0){
+                                            //Crucial step because you want to wait until all the users in the friendlist is added to the local users list.
                                             adapter = new FriendListAdapter(users,getActivity());
                                             listView.setAdapter(adapter);
                                             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                    //Gets the user onItemClick and starts of user profile activity with correct user put in the bundle.
                                                     User pos_user = adapter.getItem(i);
                                                     Intent intent = new Intent(getActivity(),FriendProfileActivity.class);
                                                     intent.putExtra("user_email" ,pos_user.getEmail());

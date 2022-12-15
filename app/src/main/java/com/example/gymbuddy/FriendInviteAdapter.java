@@ -14,11 +14,13 @@ public class FriendInviteAdapter extends ArrayAdapter<User> implements View.OnCl
     private ArrayList<User> users;
     Context mContext;
     private static class ViewHolder {
+        //View Holder for the Friend invites
         TextView txtName;
         TextView txtGym;
         ImageView info;
     }
     public FriendInviteAdapter(ArrayList<User> data, Context context) {
+        //Initializes the list of users and Context of this adapter.
         super(context, R.layout.friend_row, data);
         this.users = data;
         this.mContext = context;
@@ -33,15 +35,18 @@ public class FriendInviteAdapter extends ArrayAdapter<User> implements View.OnCl
         FriendInviteAdapter.ViewHolder viewHolder;
         final View result;
         if (convertView == null){
+            //Creates a Inflater and inflate the view with the inflater if the view is present.
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.friend_row, parent, false);
+            //Creates a reference for each items in the row.
             viewHolder.txtName = convertView.findViewById(R.id.friendRowName);
             viewHolder.txtGym = convertView.findViewById(R.id.friendRowGym);
             viewHolder.info = convertView.findViewById(R.id.friendRowImage);
             result = convertView;
             convertView.setTag(viewHolder);
         } else {
+            //If the View is already present, simply get the view with previous tag.
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }

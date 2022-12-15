@@ -80,17 +80,20 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         profile_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Curr User email " + curr_user_email + " My email " + account.getEmail());
+                //If the user clicks on yes, it checks if the user is myself or already in my friend list.
                 if (curr_user_email.equals(account.getEmail()) || (curr_friendlist.contains(curr_user_email))) {
                     Toast.makeText(getApplicationContext(), "You cannot add yourself or " +
                             "The person is already in the friends list", Toast.LENGTH_LONG).show();
                 } else {
+                    //If not, send the friend request to the user.
                     addUser(curr_user_email);
                 }
                 if (sameLocationUsers.size() == 0) {
+                    //Check if the there are more users in the same location.
                     Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 } else {
+                    //If there are more users, simply get a new user and update the view.
                     User curr_user = sameLocationUsers.remove(0);
                     curr_user_email = curr_user.getEmail();
                     System.out.println("curr user email: " + curr_user_email);
@@ -109,6 +112,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                     Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), HomeActivity.class));
                 } else {
+                    //Gets a new user.
                     User curr_user = sameLocationUsers.remove(0);
                     curr_user_email = curr_user.getEmail();
                     profile_name.setText(curr_user.getName());
@@ -123,8 +127,10 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
     }
 
     private void addUser(String addUserEmail) {
+        //Send a friend request to the user.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //Add the friend to my pendingRequests.
         db.collection("users").
                 document(account.getEmail()).update("pendingRequests", FieldValue.arrayUnion(addUserEmail)).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -139,6 +145,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                         Log.w("d", "Error writing document", e);
                     }
                 });
+        //Add myself to the other person's pendingInvites list.
         db.collection("users").document(addUserEmail).update("pendingInvites", FieldValue.arrayUnion(account.getEmail())).
                 addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -155,6 +162,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
     }
 
     private void getUsersInSameLocation() {
+        //Gets users in same location.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -172,6 +180,7 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot d : task.getResult()) {
+                                        //Add all the users in the same location the local list.
                                         ArrayList<String> fl = new ArrayList<>();
                                         fl = (ArrayList<String>) d.getData().get("friendlist");
                                         ArrayList<String> pi = new ArrayList<>();
@@ -185,18 +194,17 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                                                 pi,
                                                 pr, d.getData().get("description").toString());
                                         sameLocationUsers.add(curr);
-
-                                        System.out.println(sameLocationUsers.get(0).getEmail());
                                     }
+                                    //sets the buttons to be visible once there is at least one user in the same locaiton.
                                     profile_yes.setVisibility(View.VISIBLE);
                                     profile_no.setVisibility(View.VISIBLE);
+                                    //Updates the view for the first time with a user in the same location.
                                     User curr_user = sameLocationUsers.remove(0);
                                     profile_name.setText(curr_user.getName());
                                     profile_location.setText(curr_user.getLocation());
                                     profile_gym.setText(curr_user.getGym());
                                     profile_description.setText(curr_user.getDescription());
                                     curr_user_email = curr_user.getEmail();
-                                    System.out.println("curr user email is: " + curr_user_email);
 
                                 } else {
                                     Toast.makeText(getApplicationContext(), "No more users in the area", Toast.LENGTH_LONG).show();

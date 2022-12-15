@@ -70,6 +70,7 @@ public class PendingFriendsFragment extends Fragment {
         return fragment;
     }
     public void showDialog(User user){
+        //Show the dialog when user clicked the users in the pending friends list.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
@@ -81,6 +82,7 @@ public class PendingFriendsFragment extends Fragment {
 
         DocumentReference docRefOfFriend = db.collection("users").document(curr_user_email);
 
+        //Builds the alert dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Rescind Friend Request?");
 
@@ -130,6 +132,7 @@ public class PendingFriendsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //Get the data from firebase Pending Requests.
                         friendlist = (ArrayList<String>) document.getData().get("pendingRequests");
                         friendlist_forDelete = friendlist;
                         if (friendlist.size() == 0){
@@ -167,6 +170,7 @@ public class PendingFriendsFragment extends Fragment {
                                                 @Override
                                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                                     User pos_user = adapter.getItem(i);
+                                                    //Shows the dialog to see if the user wants to rescind the request.
                                                     showDialog(pos_user);
 
                                                 }

@@ -14,6 +14,7 @@ public class FriendRequestAdapter extends ArrayAdapter<User> implements View.OnC
     private ArrayList<User> users;
     Context mContext;
     private static class ViewHolder {
+        //View Holder for the Friend Requests.
         TextView txtName;
         TextView txtGym;
         ImageView info;

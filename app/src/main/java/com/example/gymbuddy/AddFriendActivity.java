@@ -58,31 +58,33 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                 addFriendsToFB();
             }
         });
+        //Creates fragment for current friends
         fragContainer = findViewById(R.id.friendFragmentList);
         FriendListFragment curr_frag = new FriendListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentFriendList, curr_frag).commit();
-
+        //Creates fragment for Sent Friend Requests
         pendingRequestsContainer = findViewById(R.id.pendingFriendsFragmentList);
         PendingFriendsFragment curr_pendingRequest = new PendingFriendsFragment();
         FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
         ft2.replace(R.id.fragmentPendingRequests, curr_pendingRequest).commit();
-
+        //Creates fragment for Current Requests
         pendingInvitesContainer = findViewById(R.id.pendingInvitesFragmentList);
         PendingInvitesFragment curr_invites = new PendingInvitesFragment();
         FragmentTransaction ft3 = getSupportFragmentManager().beginTransaction();
         ft3.replace(R.id.fragmentPendingInvites, curr_invites).commit();
 
     }
-
+    //Sends a friend request
     private void addFriendsToFB() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-
+        //Gets the email typed on the Search Box
         String c_v = searchFriends.getText().toString();
         if (c_v.equals(account.getEmail())){
+            //Checks if the email is equal to your own email
             Toast.makeText(getApplicationContext(),"You cannot add yourself!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -93,6 +95,7 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        //If the user exists, send the friend request and refresh the fragment.
                         db.collection("users").
                                 document(account.getEmail()).update("pendingRequests", FieldValue.arrayUnion(c_v)).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -113,6 +116,7 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                                         Log.w("d", "Error writing document", e);
                                     }
                                 });
+                        //Adds my own email to the pending invites of the user that you have just sent request to.
                         db.collection("users").document(c_v).update("pendingInvites", FieldValue.arrayUnion(account.getEmail())).
                                 addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -137,7 +141,6 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
                         Toast.makeText(getApplicationContext(),"No Such User !",Toast.LENGTH_SHORT).show();
                     }
                 } else {
-
                     Log.d("d", "get failed with ", task.getException());
                 }
             }
@@ -145,17 +148,18 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
 
 
     }
-
+    //Signs out the user
     private void SignOut() {
         gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 finish();
+                //Takes the user to the log in page
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
     }
-
+    //Sets up the navigation to the bottom navigation.
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

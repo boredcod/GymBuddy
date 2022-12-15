@@ -68,22 +68,25 @@ public class FriendProfileActivity extends AppCompatActivity {
 
     }
     private void startChat(){
+        //Starts chat activity with your friend by putting passed email from last activity.
         Intent i = new Intent(this, MessageActivity.class);
         i.putExtra("sendEmail",p_email);
         startActivity(i);
     }
     private void removeFriend(){
+        //Removes the friend from my own friend list
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         DocumentReference docRef = db.collection("users").document(account.getEmail());
         docRef.update("friendlist", FieldValue.arrayRemove(p_email));
-
+        //Removes myself from the friend's friend list.
         DocumentReference docRefOfFriend = db.collection("users").document(p_email);
         docRefOfFriend.update("friendlist", FieldValue.arrayRemove(account.getEmail()));
         Intent i = new Intent(this,AddFriendActivity.class);
         startActivity(i);
     }
     private void getProfileInformation(){
+        //Gets the friend's profile information from firebase database.
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(p_email);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

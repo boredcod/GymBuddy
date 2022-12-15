@@ -16,6 +16,7 @@ public class FriendListAdapter extends ArrayAdapter<User> implements View.OnClic
     private ArrayList<User> users;
     Context mContext;
     private static class ViewHolder {
+        //View Holder for the Friend Lists
         TextView txtName;
         TextView txtGym;
         ImageView info;

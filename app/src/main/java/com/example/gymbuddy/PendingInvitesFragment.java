@@ -85,6 +85,7 @@ public class PendingInvitesFragment extends Fragment {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
+                // Add the user to my friend list, and myself to the other user's friend list.
                 docRef.update("friendlist", FieldValue.arrayUnion(curr_user_email));
                 docRef.update("pendingInvites", FieldValue.arrayRemove(curr_user_email));
                 docRefOfFriend.update("friendlist", FieldValue.arrayUnion(account.getEmail()));

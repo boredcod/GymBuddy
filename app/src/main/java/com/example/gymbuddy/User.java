@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class User {
+    //User class for myself and other people
     private String name;
     private String uID;
     private String location;
