@@ -13,14 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="@dimen/tendp"
         >
 
         <ImageView
             android:id="@+id/messagebox_ImageView_profile"
-
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/regular_marginTop"
+            android:layout_height="@dimen/regular_marginTop"
             app:srcCompat="@android:drawable/sym_def_app_icon" />
         <TextView
             android:id="@+id/messagebox_TextView_name"
@@ -42,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/one"
-                android:textSize="9dp"
+                android:textSize="@dimen/tendp"
                 android:textColor="@color/purple_200"
                 android:visibility="invisible"
                 />
@@ -59,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/one"
-                android:textSize="9dp"
+                android:textSize="@dimen/tendp"
                 android:textColor="@color/purple_200"
                 android:visibility="invisible"
                 />
@@ -75,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:textSize="9sp"
+                android:textSize="@dimen/ninesp"
                 android:text="@string/minus"
                 />
         </LinearLayout>

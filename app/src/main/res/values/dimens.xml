@@ -4,4 +4,14 @@
     <dimen name="regular_textSize">24dp</dimen>
     <dimen name="regular_marginTop">50dp</dimen>
     <dimen name="small_marginTop">24dp</dimen>
+    <dimen name="onedp">1dp</dimen>
+    <dimen name="profileImageDp">110dp</dimen>
+    <dimen name="twohundreddp">200dp</dimen>
+    <dimen name="fivedp">5dp</dimen>
+    <dimen name="txtsp">20sp</dimen>
+    <dimen name="tendp">10dp</dimen>
+    <dimen name="fivefivesp">55sp</dimen>
+    <dimen name="dumbellhumanwidth">150dp</dimen>
+    <dimen name="dumbellhumanheight">131dp</dimen>
+    <dimen name="ninesp">9sp</dimen>
 </resources>

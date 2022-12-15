@@ -126,7 +126,7 @@ public class FriendProfileActivity extends AppCompatActivity {
                     if (document.exists()) {
                         profileName.setText(document.getData().get("name").toString());
                         profileLocation.setText("Location: "+document.getData().get("location").toString());
-                        profileGym.setText("Gym:"+ document.getData().get("gym").toString());
+                        profileGym.setText("Gym: "+ document.getData().get("gym").toString());
                         profileDescription.setText(document.getData().get("description").toString());
 
                     } else {
