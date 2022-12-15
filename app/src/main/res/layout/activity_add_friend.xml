@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".AddFriendActivity">
     <EditText
-        android:hint="Search Users By Email"
+        android:hint="@string/SearchUserByEmail"
         android:id ="@+id/searchFriendsByEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Friends"
+        android:text="@string/CurrentFriends"
         android:textStyle="bold" />
     <View
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sent Friend Requests"
+        android:text="@string/SentFriendRequest"
         android:textStyle="bold" />
     <View
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Requests"
+        android:text="@string/CurrentRequests"
         android:textStyle="bold" />
     <View
         android:layout_width="match_parent"

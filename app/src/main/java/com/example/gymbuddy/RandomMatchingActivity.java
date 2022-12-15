@@ -96,7 +96,6 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
                     //If there are more users, simply get a new user and update the view.
                     User curr_user = sameLocationUsers.remove(0);
                     curr_user_email = curr_user.getEmail();
-                    System.out.println("curr user email: " + curr_user_email);
                     profile_name.setText(curr_user.getName());
                     profile_location.setText(curr_user.getLocation());
                     profile_gym.setText(curr_user.getGym());
@@ -235,11 +234,12 @@ public class RandomMatchingActivity extends AppCompatActivity implements BottomN
         switch (item.getItemId()) {
             case R.id.menu_home:
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                System.out.println("menu_home");
                 return true;
             case R.id.menu_addFriends:
                 startActivity(new Intent(getApplicationContext(), AddFriendActivity.class));
-                System.out.println("menu_addFriends");
+                return true;
+            case R.id.menu_onermcalculator:
+                startActivity(new Intent(getApplicationContext(), OneRMActivity.class));
                 return true;
             case R.id.menu_randomMatching:
                 return true;

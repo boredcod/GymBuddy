@@ -50,8 +50,7 @@
             android:id="@+id/welcome_intro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="Welcome: "
+            android:text="@string/WelcomeColon"
             android:textSize="20sp" />
 
         <TextView
@@ -73,7 +72,7 @@
             android:id="@+id/choose_your_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Your Location: "
+            android:text="@string/ChooseYourLocationColon"
             android:textSize="20sp" />
 
         <AutoCompleteTextView
@@ -92,14 +91,14 @@
             android:id="@+id/your_gym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your Gym: "
+            android:text="@string/YourGymColon"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/welcome_gym"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Gym Name"
+            android:hint="@string/GymNameColon"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -113,7 +112,7 @@
             android:id="@+id/your_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description: "
+            android:text="@string/DescriptionColon"
             android:textSize="20sp" />
 
         <EditText
@@ -130,7 +129,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:padding="10dp"
-        android:text="Save"
+        android:text="@string/Save"
         android:textSize="@dimen/regular_textSize" />
 
     <LinearLayout

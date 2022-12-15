@@ -394,13 +394,11 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
         storageRef.child(fileP).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                System.out.println("worked");
                 Glide.with(getApplicationContext()).load(uri.toString()).into(profileImage);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                System.out.println(exception);
             }
         });
     }
@@ -552,7 +550,6 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            System.out.println("failed");
                         }
             });
         }
@@ -562,18 +559,19 @@ public class HomeActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_home:
-                System.out.println("menu_home");
-                return false;
+                return true;
             case R.id.menu_addFriends:
                 startActivity(new Intent(getApplicationContext(), AddFriendActivity.class));
-                System.out.println("menu_addFriends");
-                return false;
+                return true;
             case R.id.menu_randomMatching:
                 startActivity(new Intent(getApplicationContext(), RandomMatchingActivity.class));
-                return false;
+                return true;
+            case R.id.menu_onermcalculator:
+                startActivity(new Intent(getApplicationContext(), OneRMActivity.class));
+                return true;
             case R.id.menu_logOut:
                 SignOut();
-                return false;
+                return true;
         }
         return false;
     }

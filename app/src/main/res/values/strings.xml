@@ -17,6 +17,28 @@
     <string name="Location">Location</string>
     <string name="Gym">Gym</string>
     <string name="uploadProfile_button">Upload Profile</string>
+    <string name="SearchUserByEmail">Search Users By Email</string>
+    <string name="CurrentFriends">Current Friends</string>
+    <string name="SentFriendRequest">Sent Friend Requests</string>
+    <string name="CurrentRequests">Current Requests</string>
+    <string name="NoProfileName">No Profile Name</string>
+    <string name="NoLocation">No Location</string>
+    <string name="NoGym">No Gym</string>
+    <string name="NoDescription">No Description</string>
+    <string name="WelcomeColon">Welcome: </string>
+    <string name="YourGymColon">Your Gym: </string>
+    <string name="GymNameColon">Gym Name: </string>
+    <string name="DescriptionColon">Description: </string>
+    <string name="Save">Save</string>
+    <string name="one">1</string>
+    <string name="minus">-</string>
+    <string name="OneRM">1RM</string>
+    <string name="ChooseYourLocationColon">Choose Your Location: </string>
+    <string name="InKilosWhat">In Kilos, How many KG of lifting can you do for 5 reps</string>
+    <string name="HowMuchKilos">How much KG?</string>
+    <string name="Bench">Bench Press</string>
+    <string name="Deadlift">Deadlift</string>
+    <string name="Squat">Squat</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

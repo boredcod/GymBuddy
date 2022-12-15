@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/autour_one"
-        android:text="No Profile Name"
+        android:text="@string/NoProfileName"
         android:textSize="@dimen/regular_textSize" />
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/autour_one"
-        android:text="No Location"
+        android:text="@string/NoLocation"
         android:textSize="@dimen/regular_textSize" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/autour_one"
-        android:text="No Gym"
+        android:text="@string/NoGym"
         android:textSize="@dimen/regular_textSize" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/autour_one"
-        android:text="No Description"
+        android:text="@string/NoDescription"
         android:textSize="@dimen/regular_textSize" />
 
     <TextView

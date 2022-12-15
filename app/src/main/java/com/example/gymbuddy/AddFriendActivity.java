@@ -165,13 +165,14 @@ public class AddFriendActivity extends AppCompatActivity implements BottomNaviga
         switch (item.getItemId()) {
             case R.id.menu_home:
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                System.out.println("menu_home");
                 return true;
             case R.id.menu_randomMatching:
                 startActivity(new Intent(getApplicationContext(), RandomMatchingActivity.class));
                 return true;
+            case R.id.menu_onermcalculator:
+                startActivity(new Intent(getApplicationContext(), OneRMActivity.class));
+                return true;
             case R.id.menu_addFriends:
-                System.out.println("menu_addFriends");
                 return true;
             case R.id.menu_logOut:
                 SignOut();
