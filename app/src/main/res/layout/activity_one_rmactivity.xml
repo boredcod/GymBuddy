@@ -79,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:labelVisibilityMode="labeled"
+            android:background="@color/blush_pinkSecondary"
             app:menu="@menu/bottom_navigation_menu" />
     </LinearLayout>
 
